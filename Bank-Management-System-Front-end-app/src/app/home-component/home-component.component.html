@@ -1,0 +1,148 @@
+<!-- <body class=""> -->
+  <div class="absolute right-5 top-3 w-[50px] h-[50px] bg-black rounded-[5px] shadow-md shadow-black">
+    <button type="button" >
+      <a routerLink="/login">
+        <img src="/assets/logout.png" alt="logout" class="w-15 h-15 text-white">
+      </a>
+    </button>
+  </div>
+  <div class="w-[100vw] h-[100vh] flex justify-center flex-col p-3">
+    <div class="w-full h-1/3 bg-[#f2f2f28d] rounded-[15px] flex justify-evenly gap-2 p-2">
+
+      <div class="bg-blue-950 w-full rounded-[13px] flex flex-col text-white"> 
+        <div class="text-[16px] font-normal px-4 pt-4 flex justify-between">
+          <div>Account no: {{customer.customerId}}</div>
+          <div>Hello There! , <span class="font-bold">{{customer.customerName}}</span></div>
+        </div>
+        <div class="flex justify-center text-[24px] font-extrabold items-center mt-9 text-[#ffdb4b]">{{customer.customerBalance}}</div>
+        <div class="text-[14px] font-normal flex justify-center text-[#d0d0d0]">Available Balance</div>
+      </div>
+      
+      <div class="bg-white w-full rounded-[13px] flex flex-col justify-center ">
+        <div class="flex flex-col px-24">
+        <form (ngSubmit)="onDeposit()">
+          <label for="username" class="text-[16px] flex justify-center">Enter Amount to Deposit</label>
+          <div class="flex rounded-[15px] bg-[#f2f2f28d] mt-3">
+            <input type="text" id="depositAmmount" [(ngModel)] = "depositAmmount" name ="depositAmmount" class="p-2 m-0.5 rounded-[13px] w-full" required
+            required
+            pattern="[0-9]+"
+            #depositInput="ngModel">
+          </div>
+          <div *ngIf="depositInput.invalid && (depositInput.dirty || depositInput.touched)" class="text-red-500 text-[12px] mt-2 flex justify-center">
+            Please enter a valid amount.
+          </div>
+          <input type="submit" value="Deposit" class="flex w-full justify-center items-center bg-black rounded-[15px] text-[16px] font-semibold text-white py-3 mt-4 hover:bg-white hover:ring-1 hover:ring-black hover:text-black  transition-all cursor-pointer" />
+        </form>
+
+      </div>
+     </div>
+     
+      <div class="bg-white w-full rounded-[13px] flex flex-col justify-center">
+        <div class="flex flex-col px-24">
+          <form #WithdrawFrom="ngForm" (ngSubmit)="onWithdraw()">
+            <label for="username" class="text-[16px] flex justify-center">Enter Amount to withdraw</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d] mt-3 ">
+              <input type="text" id="withdrawAmmount" [(ngModel)] = "withdrawAmmount" name ="withdrawAmmount" class="p-2 m-0.5 rounded-[13px] w-full " 
+              required
+              pattern="[0-9]+"
+              #wthdrawInput="ngModel">
+            </div>
+            <div *ngIf="wthdrawInput.invalid && (wthdrawInput.dirty || wthdrawInput.touched)" class="text-red-500 text-[12px] mt-2 flex justify-center">
+              Please enter a valid amount.
+            </div>
+            <input type="submit" value="Withdraw" class="flex w-full justify-center items-center bg-black rounded-[15px] text-[16px] font-semibold text-white py-3 mt-4 hover:bg-white hover:ring-1 hover:ring-black hover:text-black  transition-all cursor-pointer" />
+          </form>
+          </div>
+
+      </div>
+    </div>
+    <div class="w-full h-2/3 mt-3 bg-[#f2f2f28d] rounded-[15px] flex justify-between gap-2 p-2 overflow-hidden">
+      <div class="bg-white rounded-[13px] flex flex-col p-3 pr-9 w-[1000px] ">
+        <h1 class="flex justify-center  text-[22px] font-bold">Transactions</h1>
+        <table style="width:100%" class="mt-4 text-[14px] ">
+          <tbody>
+            <tr>
+              <th style="width:30%">Date</th>
+              <th style="width:50%">Reference</th>
+              <th style="width:20%"> Amount</th>
+            </tr>
+            <tr *ngFor = "let transaction of transactions" rever align="center" style="height:50px" class="text-[#a5a4a4]">
+              <td>{{transaction.transactionDate}}</td>
+              <td>{{transaction.transactionType}}</td>
+              <td>{{transaction.amount}}</td>
+            </tr> 
+          </tbody>   
+        </table>
+      </div>
+      <div class="bg-white rounded-[13px] flex flex-col p-3 w-[700px]">
+        <div class="px-12">
+          <h1 class="flex justify-center text-[22px] font-bold mb-5">Fund Transfer</h1>
+          <form (ngSubmit)="onTransferFund()">
+            <label for="username" class="text-[16px] mt-5">Receiver Account Number</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="receiverAccountNumber" [(ngModel)] = "receiverAccountNumber" name ="receiverAccountNumber" class="p-2 m-0.5 rounded-[13px] w-full"
+              required
+              pattern="[0-9]+"
+              #reciverInput="ngModel">
+            </div>
+            <div *ngIf="reciverInput.invalid && (reciverInput.dirty || reciverInput.touched)" class="text-red-500 text-[12px]  flex justify-center">
+              Please enter a valid Account Number.
+            </div>
+            <label for="username" class="text-[16px]  ">Name</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="recieverName" [(ngModel)] = "recieverName" name ="recieverName" class="p-2 m-0.5 rounded-[13px] w-full">
+            </div>
+            <label for="username" class="text-[16px]  ">Reference</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="yourRef" [(ngModel)] = "yourRef" name ="yourRef" class="p-2 m-0.5 rounded-[13px] w-full">
+            </div>
+            <label for="username" class="text-[16px]  ">Amount</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="amount" [(ngModel)] = "amount" name ="amount" class="p-2 m-0.5 rounded-[13px] w-full"
+              required
+              pattern="[0-9]+"
+              #fundInput="ngModel">
+            </div>
+            <div *ngIf="fundInput.invalid && (fundInput.dirty || fundInput.touched)" class="text-red-500 text-[12px] flex justify-center">
+              Please enter a valid amount.
+            </div>
+            <input type="submit" value="Transfer" class="flex w-full justify-center items-center bg-black rounded-[15px] text-[16px] font-semibold text-white py-3 mt-2 hover:bg-white hover:ring-1 hover:ring-black hover:text-black  transition-all cursor-pointer" />
+          
+          </form>
+          </div>
+      </div>
+      <div class="bg-white w-[700px] rounded-[13px] flex flex-col p-3">
+        <div class="px-12">
+          <h1 class="flex justify-center text-[22px] font-bold  mb-5">Bill payment</h1>
+          <form (ngSubmit)="onBillPay()">
+            <label for="username" class="text-[16px] mt-8">Biller</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="biller" [(ngModel)] = "biller" name ="biller" class="p-2 m-0.5 rounded-[13px] w-full">
+            </div>
+            <label for="username" class="text-[16px]">Their reference</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="theirRef" [(ngModel)] = "theirRef" name ="theirRef" class="p-2 m-0.5 rounded-[13px] w-full">
+            </div>
+            <label for="username" class="text-[16px]  ">Your reference</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="yourRef" [(ngModel)] = "yourRef" name ="yourRef" class="p-2 m-0.5 rounded-[13px] w-full">
+            </div>
+            <label for="username" class="text-[16px]  ">Amount</label>
+            <div class="flex rounded-[15px] bg-[#f2f2f28d]">
+              <input type="text" id="billAmmount" [(ngModel)] = "billAmmount" name ="billAmmount" class="p-2 m-0.5 rounded-[13px] w-full"
+              required
+              pattern="[0-9]+"
+              #billInput="ngModel">
+            </div>
+            <div *ngIf="billInput.invalid && (billInput.dirty || billInput.touched)" class="text-red-500 text-[12px] mt-2 flex justify-center">
+              Please enter a valid amount.
+            </div>
+            <input type="submit" value="Pay now" class="flex w-full justify-center items-center bg-black rounded-[15px] text-[16px] font-semibold text-white py-3 mt-2 hover:bg-white hover:ring-1 hover:ring-black hover:text-black  transition-all cursor-pointer" />
+          
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </body> -->
